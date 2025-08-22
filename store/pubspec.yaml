@@ -30,7 +30,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # للخطوط الأنيقة
+  flutter_bloc: ^8.1.5
 
+  # لتحقيق تأثيرات حركية احترافية وسلسلة بسهولة فائقة
+  # هذه الحزمة ممتازة لتحقيق "الرؤية الفنية العالية" التي طلبتها
+  flutter_animate: ^4.5.0
+
+  # لاستخدام خطوط جوجل بسهولة في التصميم
+  google_fonts: ^6.2.1
+
+  # لإضافة أيقونات احترافية (مثل أيقونات الشبكات الاجتماعية)
+  font_awesome_flutter: ^10.7.0
+
+  # (اختياري ولكن موصى به) للتعامل مع الاتصالات بالـ API
+  dio: ^5.4.3+1
+
+  iconsax: ^0.0.8
+  meta: ^1.12.0       
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

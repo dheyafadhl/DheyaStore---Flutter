@@ -1,30 +1,22 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:store/main.dart';
+// Make sure this import path correctly points to your login page file
+import 'package:store/features/auth/presentation/pages/login_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Login Page renders all initial widgets correctly', (WidgetTester tester) async {
+    // Build the LoginPage inside a MaterialApp
+    await tester.pumpWidget(const MaterialApp(home: LoginPage()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the main title and other texts are visible
+    expect(find.text('مرحباً بعودتك!'), findsOneWidget);
+    expect(find.text('سجل الدخول للمتابعة'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that the email and password fields are visible
+    expect(find.widgetWithText(TextFormField, 'البريد الإلكتروني'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'كلمة المرور'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the login button is visible
+    expect(find.widgetWithText(ElevatedButton, 'تسجيل الدخول'), findsOneWidget);
   });
 }
