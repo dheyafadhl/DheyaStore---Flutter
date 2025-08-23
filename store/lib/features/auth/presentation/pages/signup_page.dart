@@ -26,14 +26,13 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2000), // مدة أطول قليلاً
+      duration: const Duration(milliseconds: 2000),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    // ✅ تصحيح: تعريف 6 فترات زمنية للعناصر المتحركة
     final slideIntervals = [
       const Interval(0.0, 0.4, curve: Curves.easeOut), // العنوان
       const Interval(0.2, 0.6, curve: Curves.easeOut), // حقل الاسم
@@ -65,7 +64,7 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       Future.delayed(const Duration(seconds: 2), () {
-        if(mounted){
+        if (mounted) {
           setState(() => _isLoading = false);
           // TODO: Navigate to the home page or verification page
         }
@@ -73,7 +72,6 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
     }
   }
 
-  // دالة مساعدة لتطبيق الحركات على الويدجتس
   Widget _buildAnimatedWidget(Widget child, Animation<Offset> slideAnimation) {
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -90,11 +88,18 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
     return AuthPageLayout(
       child: Form(
         key: _formKey,
-        // ✅ تصحيح: تم وضع جميع العناصر داخل قائمة children للـ Column
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // --- تم إضافة الشعار هنا ---
+            Image.asset(
+              'assets/images/logo.png',
+              height: 120, // يمكنك تعديل الارتفاع ليناسب تصميمك
+            ),
+            const SizedBox(height: 24), // مسافة بين الشعار وباقي المحتوى
+            // -------------------------
+
             // 1. العنوان
             _buildAnimatedWidget(
               Text(
@@ -120,7 +125,7 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                 prefixIcon: Icons.person_outline,
                 validator: (value) => (value == null || value.isEmpty) ? 'الرجاء إدخال اسمك' : null,
               ),
-              _slideAnimations[1], // استخدام الحركة الصحيحة
+              _slideAnimations[1],
             ),
             const SizedBox(height: 20),
 
@@ -132,7 +137,7 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                 prefixIcon: Icons.email_outlined,
                 validator: (value) => (value == null || !value.contains('@')) ? 'الرجاء إدخال بريد إلكتروني صحيح' : null,
               ),
-              _slideAnimations[2], // استخدام الحركة الصحيحة
+              _slideAnimations[2],
             ),
             const SizedBox(height: 20),
 
@@ -145,7 +150,7 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                 isPassword: true,
                 validator: (value) => (value == null || value.length < 6) ? 'يجب أن تكون كلمة المرور 6 أحرف على الأقل' : null,
               ),
-              _slideAnimations[3], // استخدام الحركة الصحيحة
+              _slideAnimations[3],
             ),
             const SizedBox(height: 32),
 
@@ -156,13 +161,12 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                 onPressed: _signup,
                 isLoading: _isLoading,
               ),
-              _slideAnimations[4], // استخدام الحركة الصحيحة
+              _slideAnimations[4],
             ),
             const SizedBox(height: 24),
 
             // 6. رابط تسجيل الدخول
             _buildAnimatedWidget(
-              // ✅ تصحيح: تم إضافة العناصر داخل Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -173,7 +177,7 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                   ),
                 ],
               ),
-              _slideAnimations[5], // استخدام الحركة الصحيحة
+              _slideAnimations[5],
             ),
           ],
         ),

@@ -3,7 +3,7 @@ import 'package:store/app/config/routes/app_routes.dart';
 import 'package:store/shared/widgets/animated_custom_text_field.dart';
 import 'package:store/shared/widgets/auth_page_layout.dart';
 import 'package:store/shared/widgets/primary_action_button.dart';
-import 'package:store/features/auth/presentation/pages/signup_page.dart'; // تأكد من صحة المسار
+import 'package:store/features/auth/presentation/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,14 +27,13 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800), // زيادة المدة لتناسب عدد العناصر
+      duration: const Duration(milliseconds: 1800),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    // ✅ تصحيح: تعريف 5 فترات زمنية لـ 5 عناصر متحركة
     final slideIntervals = [
       const Interval(0.0, 0.4, curve: Curves.easeOut), // العنوان الرئيسي
       const Interval(0.2, 0.6, curve: Curves.easeOut), // حقل الإيميل
@@ -65,16 +64,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       setState(() => _isLoading = true);
       Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {
-           setState(() => _isLoading = false);
-           // TODO: Navigate to home screen after successful login
+          setState(() => _isLoading = false);
+          // TODO: Navigate to home screen after successful login
         }
       });
     }
   }
 
-  // ودجت متحرك مخصص لتجنب تكرار الكود
   Widget _buildAnimatedWidget(Widget child, Animation<Offset> slideAnimation) {
-    // تم تبسيط الدالة لتستخدم SlideTransition مع FadeTransition
     return FadeTransition(
       opacity: _fadeAnimation,
       child: SlideTransition(
@@ -90,11 +87,19 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     return AuthPageLayout(
       child: Form(
         key: _formKey,
-        // ✅ تصحيح: تم وضع جميع العناصر داخل قائمة children للـ Column
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            
+            // --- تم إضافة الشعار هنا ---
+            Image.asset(
+              'assets/images/logo.png',
+              height: 120, // يمكنك تعديل الارتفاع ليناسب تصميمك
+            ),
+            const SizedBox(height: 32), // مسافة بين الشعار وباقي المحتوى
+            // -------------------------
+
             // 1. العنوان
             _buildAnimatedWidget(
               Text(
@@ -132,7 +137,6 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 labelText: 'كلمة المرور',
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
-                // ✅ تصحيح: تم إصلاح الخطأ المطبعي هنا
                 validator: (value) =>
                     (value == null || value.length < 6) ? 'يجب أن تكون كلمة المرور 6 أحرف على الأقل' : null,
               ),
@@ -153,11 +157,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
             // 5. الروابط الثانوية
             _buildAnimatedWidget(
-              // ✅ تصحيح: تم إضافة العناصر داخل Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // الكود الصحيح (الطريقة الأولى)
                   TextButton(
                     onPressed: () {
                       Navigator.push(

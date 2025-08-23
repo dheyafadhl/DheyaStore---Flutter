@@ -32,13 +32,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    // ✅ تصحيح: تعريف فترات زمنية للحركة
     final slideIntervals = [
       const Interval(0.2, 0.8, curve: Curves.easeOut), // حركة حقل الإدخال
       const Interval(0.4, 1.0, curve: Curves.easeOut), // حركة الزر
     ];
 
-    // ✅ تصحيح: إنشاء قائمة الحركات بشكل صحيح
     _slideAnimations = slideIntervals.map((interval) {
       return Tween<Offset>(begin: const Offset(0, 40), end: Offset.zero).animate(
         CurvedAnimation(parent: _controller, curve: interval),
@@ -70,7 +68,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     }
   }
 
-  // هذه الدالة المساعدة تقوم بتطبيق الحركتين (ظهور وتمرير) على الويدجت
   Widget _buildAnimatedWidget(Widget child, Animation<Offset> slideAnimation) {
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -87,15 +84,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     return AuthPageLayout(
       child: Form(
         key: _formKey,
-        // ✅ تصحيح: تم وضع جميع العناصر داخل قائمة children للـ Column
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // --- الشعار مضاف هنا بشكل صحيح ---
+            Image.asset(
+              'assets/images/logo.png',
+              height: 120, 
+            ),
+            const SizedBox(height: 24),
+            // ------------------------------------
+
             Text(
               'إعادة تعيين كلمة المرور',
               textAlign: TextAlign.center,
-              style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.headlineMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
@@ -105,20 +110,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
             ),
             const SizedBox(height: 40),
 
-            // استخدام الحركة الأولى لحقل البريد الإلكتروني
             _buildAnimatedWidget(
               AnimatedCustomTextField(
                 controller: _emailController,
                 labelText: 'البريد الإلكتروني',
                 prefixIcon: Icons.email_outlined,
-                validator: (value) =>
-                    (value == null || !value.contains('@')) ? 'الرجاء إدخال بريد إلكتروني صحيح' : null,
+                validator: (value) => (value == null || !value.contains('@'))
+                    ? 'الرجاء إدخال بريد إلكتروني صحيح'
+                    : null,
               ),
               _slideAnimations[0],
             ),
             const SizedBox(height: 32),
 
-            // استخدام الحركة الثانية لزر الإرسال
             _buildAnimatedWidget(
               PrimaryActionButton(
                 text: 'إرسال الرابط',
@@ -131,7 +135,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
 
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('العودة لتسجيل الدخول', style: TextStyle(color: theme.colorScheme.primary)),
+              child: Text('العودة لتسجيل الدخول',
+                  style: TextStyle(color: theme.colorScheme.primary)),
             ),
           ],
         ),
